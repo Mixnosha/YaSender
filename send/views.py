@@ -4,7 +4,7 @@ import smtplib
 
 from django.views.generic import CreateView, ListView
 
-from send.forms import RegisterUserForms, LoginUserForm, AddRecipientEmail
+from send.forms import RegisterUserForms, LoginUserForm, AddRecipientEmail, AddSendEmail
 from send.models import SendEmail, RecipientEmail
 
 
@@ -45,9 +45,10 @@ class AccountView(ListView):
         context.update(
             {
                 'to_emails': RecipientEmail.objects.filter(user=self.request.user),
-                'form_add_rec_email': AddRecipientEmail()
+                'form_add_rec_email': AddRecipientEmail(),
+                'form_add_send_email': AddSendEmail(),
              }
         )
-        print(context['form_add_rec_email'])
+        print(context['form_add_send_email'])
         return context
 

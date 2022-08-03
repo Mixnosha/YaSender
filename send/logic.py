@@ -4,7 +4,9 @@
 from django.contrib.auth.models import User
 from django.shortcuts import redirect
 from django.conf import settings
-from send.models import RecipientEmail
+from send.models import RecipientEmail, SendEmail
+
+
 #
 # user = "your-address@yandex.ru"
 # passwd = "**********"
@@ -45,4 +47,11 @@ def add_rec_email(request):
     email = request.POST.get('email')
     user = User.objects.get(username=request.POST.get('user'))
     RecipientEmail.objects.create(email=email, user=user)
+    return redirect('account')
+
+def add_send_email(request):
+    email = request.POST.get('email')
+    user = User.objects.get(username=request.POST.get('user'))
+    password = request.POST.get('password')
+    SendEmail.objects.create(email=email, user=user, password=password)
     return redirect('account')

@@ -10,7 +10,7 @@
 <h2>{{ request.user.username }}</h2>
 <label>Your send gmail:</label><br><br>
 {% for email in send_emails %}
-    {{email.email}}
+    {{email.email}}<br>
 {% endfor %}
 
 <br><br>
@@ -28,6 +28,20 @@
     <select class='form_add_rec_email' name="user" required id="id_user">
     <option value="{{ request.user }}" selected>{{ request.user }}</option>
     </select><br>
+    <input type="submit" value="add">
+</form>
+
+<form method="post" action="{% url 'add_send_email' %}">
+        {% csrf_token %}
+    <label for="id_email">Email:</label>
+    <input type="email" name="email" maxlength="254" required id="id_email"><br></br>
+
+    <select class='form_add_rec_email' name="user" required id="id_user">
+        <option value="{{ request.user }}" selected>{{ request.user }}</option>
+    </select>
+    <label for="id_password">Password:</label>
+    <input type="password" name="password" maxlength="50" required id="id_password">
+    <br>
     <input type="submit" value="add">
 </form>
 
