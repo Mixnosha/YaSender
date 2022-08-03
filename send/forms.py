@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
-from send.models import RecipientEmail, SendEmail
+from send.models import RecipientEmail, SendEmail, SendEmailModel
 
 
 class RegisterUserForms(UserCreationForm):
@@ -20,16 +20,21 @@ class LoginUserForm(AuthenticationForm):
     password = forms.CharField(label="password", widget=forms.PasswordInput(attrs={'class': 'form-input'}))
 
 
-class AddRecipientEmail(forms.ModelForm):
+class AddRecipientEmailForm(forms.ModelForm):
     class Meta:
         model = RecipientEmail
         fields = "__all__"
 
 
-class AddSendEmail(forms.ModelForm):
+class AddSendEmailForm(forms.ModelForm):
     class Meta:
         model = SendEmail
         fields = ('email', 'user', 'password')
         widgets = {
             'password': forms.PasswordInput(),
         }
+
+class SendEmailForm(forms.ModelForm):
+    class Meta:
+        model = SendEmailModel
+        fields = "__all__"

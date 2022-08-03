@@ -6,6 +6,7 @@ from send.views import *
 
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', SendEmailView.as_view(), name='main_page'),
     path('register', RegisterUser.as_view(), name='register'),
     path('login', LoginUser.as_view(), name='login'),
     path('account', AccountView.as_view(), name='account'),
