@@ -2,6 +2,8 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
+from send.models import RecipientEmail
+
 
 class RegisterUserForms(UserCreationForm):
     username = forms.CharField(label='username', widget=forms.TextInput(attrs={'class': 'form-input'}))
@@ -16,3 +18,9 @@ class RegisterUserForms(UserCreationForm):
 class LoginUserForm(AuthenticationForm):
     username = forms.CharField(label="username", widget=forms.TextInput(attrs={'class': 'form-input'}))
     password = forms.CharField(label="password", widget=forms.PasswordInput(attrs={'class': 'form-input'}))
+
+
+class AddRecipientEmail(forms.ModelForm):
+    class Meta:
+        model = RecipientEmail
+        fields = "__all__"
