@@ -2,7 +2,8 @@ from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
 from django.views.generic import CreateView, ListView, FormView
-from send.forms import RegisterUserForms, LoginUserForm, AddRecipientEmailForm, AddSendEmailForm, SendEmailForm
+from send.forms import RegisterUserForms, LoginUserForm, AddRecipientEmailForm, AddSendEmailForm, SendEmailForm, \
+    CreateGroupForm
 from send.models import SendEmail, RecipientEmail
 
 
@@ -64,6 +65,21 @@ class SendEmailView(FormView):
         return context
 
 
+class CreateGroupView(FormView):
+    template_name = 'send/create_group.html'
+    form_class = CreateGroupForm
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                'rec_emails': RecipientEmail.objects.filter(user=self.request.user)
+            }
+        )
+        return context
+
+
 def logout_user(request):
     logout(request)
     return redirect('register')
+

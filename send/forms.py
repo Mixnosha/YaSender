@@ -2,7 +2,7 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 
-from send.models import RecipientEmail, SendEmail, SendEmailModel
+from send.models import RecipientEmail, SendEmail, SendEmailModel, GroupEmail
 
 
 class RegisterUserForms(UserCreationForm):
@@ -44,4 +44,7 @@ class SendEmailForm(forms.ModelForm):
             'text': forms.Textarea(attrs={'class': 'form-input', 'rows': '5', 'placeholder': 'Text'}),
         }
 
-
+class CreateGroupForm(forms.ModelForm):
+    class Meta:
+        model = GroupEmail
+        fields = "__all__"

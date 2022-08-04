@@ -1,0 +1,25 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>CreateGroup</title>
+    <link rel="stylesheet"  type="text/css" href="{% static 'register/css/register.css' %}">
+</head>
+<body>
+<form class="decor" method="post" action="">
+    {% csrf_token %}
+    <div class="form-left-decoration"></div>
+    <div class="form-right-decoration"></div>
+    <div class="circle"></div>
+    <div class="form-inner">
+        <h4>Create group</h4>
+        <select style="display: none" name="user" required="" id="id_user">
+            <option value="{{ request.user.id }}" selected>{{ request.user }}</option>
+        </select>
+        <input type="text" placeholder="group name" name="name_group" maxlength="255" required="" id="id_name_group">
+        <input type="submit" value="create">
+    </div>
+</form>
+</body>
+</html>

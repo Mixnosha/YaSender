@@ -13,5 +13,6 @@ urlpatterns = [
     path('add_send_email', add_send_email, name='add_send_email'),
     path('send_email', send_email, name='send_email'),
     path('logout', logout_user, name='logout'),
-    path('del_email', del_email, name='del_email')
+    path('del_email', del_email, name='del_email'),
+    path('create_group', CreateGroupView.as_view(), name='create_group')
 ]

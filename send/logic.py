@@ -35,6 +35,7 @@ def send_email(request):
     try:
         yag = yagmail.SMTP(user=email, password=password, host='smtp.gmail.com')
         yag.send(to=to, subject=subject, contents=[body, ])
+        SendEmail.objects.create()
     except Exception:
         return HttpResponse(f'Please check that the username and password are correct: \n {email}')
     return redirect('/')
