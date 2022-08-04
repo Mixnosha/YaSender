@@ -21,18 +21,15 @@ def add_send_email(request):
 
 
 def send_email(request):
+    to = request.POST.getlist('emails')
     email = SendEmail.objects.get(id=request.POST.get('send_email'))
     password = email.password
     email = email.email
     subject = request.POST.get('subject')
     body = request.POST.get('text')
-    to = []
-    for mail in RecipientEmail.objects.filter(user=request.user, send=True):
-        to.append(mail.email)
     try:
-        yag = yagmail.SMTP(user=email, password='', host='smtp.gmail.com')
-        yag.send(to='xmixho@gmail.com', subject=subject, contents=[body, ])
-    except Exception as ex:
-        print(ex)
+        yag = yagmail.SMTP(user=email, password=password, host='smtp.gmail.com')
+        yag.send(to=to, subject=subject, contents=[body, ])
+    except Exception:
         return HttpResponse(f'Please check that the username and password are correct: \n {email}')
     return redirect('/')

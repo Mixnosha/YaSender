@@ -38,3 +38,10 @@ class SendEmailForm(forms.ModelForm):
     class Meta:
         model = SendEmailModel
         fields = "__all__"
+        widgets = {
+
+            'subject': forms.TextInput(attrs={'class': 'form-input', 'placeholder': 'Topic'}),
+            'text': forms.Textarea(attrs={'class': 'form-input', 'rows': '5', 'placeholder': 'Text'}),
+        }
+
+

@@ -1,0 +1,32 @@
+ select {
+      width: 140px;
+      height: 35px;
+      padding: 4px;
+      border-radius:4px;
+      box-shadow: 2px 2px 8px #999;
+      background: #eee;
+      border: none;
+      outline: none;
+      display: inline-block;
+      -webkit-appearance:none;
+      -moz-appearance: none;
+      appearance: none;
+      cursor: pointer;
+       margin-bottom: 20px;
+      }
+
+
+
+
+.row {
+	margin: 40px 0;
+}
+
+.left-column {
+	display: inline-block;
+	width: 250px;
+}
+
+.right-column {
+	display: inline-block;
+}
