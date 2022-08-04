@@ -103,3 +103,17 @@ a.button2:active {
     background-color: #fa2626;
     border-radius: 7px;
 }
+
+
+.row {
+	margin: 40px 0;
+}
+
+.left-column {
+	display: inline-block;
+	width: 250px;
+}
+
+.right-column {
+	display: inline-block;
+}

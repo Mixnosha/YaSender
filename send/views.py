@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 from django.views.generic import CreateView, ListView, FormView
 from send.forms import RegisterUserForms, LoginUserForm, AddRecipientEmailForm, AddSendEmailForm, SendEmailForm, \
     CreateGroupForm
-from send.models import SendEmail, RecipientEmail
+from send.models import SendEmail, RecipientEmail, GroupEmail
 
 
 class RegisterUser(CreateView):
@@ -46,6 +46,8 @@ class AccountView(ListView):
                 'to_emails': RecipientEmail.objects.filter(user=self.request.user),
                 'form_add_rec_email': AddRecipientEmailForm(),
                 'form_add_send_email': AddSendEmailForm(),
+                'rec_emails': RecipientEmail.objects.filter(user=self.request.user),
+                'groups': GroupEmail.objects.filter(user=self.request.user)
             }
         )
         return context
@@ -54,20 +56,6 @@ class AccountView(ListView):
 class SendEmailView(FormView):
     template_name = 'send/sendemail.html'
     form_class = SendEmailForm
-
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        context.update(
-            {
-                'rec_emails': RecipientEmail.objects.filter(user=self.request.user)
-            }
-        )
-        return context
-
-
-class CreateGroupView(FormView):
-    template_name = 'send/create_group.html'
-    form_class = CreateGroupForm
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)

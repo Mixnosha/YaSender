@@ -45,8 +45,12 @@ def del_email(request):
     if request.GET.get('type_email') == 'send_email':
         del_e = SendEmail.objects.get(id=id)
         del_e.delete()
-    else:
+    elif request.GET.get('type_email') == 'to_emails':
+        print('to_emails')
         del_e = RecipientEmail.objects.get(id=id)
+        del_e.delete()
+    elif request.GET.get('type_email') == 'group':
+        del_e = GroupEmail.objects.get(id=id)
         del_e.delete()
     return redirect('account')
 
