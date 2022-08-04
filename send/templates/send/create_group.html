@@ -5,9 +5,10 @@
     <meta charset="UTF-8">
     <title>CreateGroup</title>
     <link rel="stylesheet"  type="text/css" href="{% static 'register/css/register.css' %}">
+    <link rel="stylesheet"  type="text/css" href="{% static 'send/css/create_group.css' %}">
 </head>
 <body>
-<form class="decor" method="post" action="">
+<form class="decor" method="post" action="{% url 'create_group_def' %}">
     {% csrf_token %}
     <div class="form-left-decoration"></div>
     <div class="form-right-decoration"></div>
@@ -18,6 +19,13 @@
             <option value="{{ request.user.id }}" selected>{{ request.user }}</option>
         </select>
         <input type="text" placeholder="group name" name="name_group" maxlength="255" required="" id="id_name_group">
+        <h4>Add email</h4>
+        {% for email in rec_emails %}
+            <div class="row">
+	            <div class="left-column"><label class="label_email">{{ email.email }}</label></div>
+	            <div class="right-column"><input  type="checkbox" name="emails" value="{{ email.id }}"></div>
+            </div>
+        {% endfor %}
         <input type="submit" value="create">
     </div>
 </form>

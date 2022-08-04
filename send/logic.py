@@ -2,7 +2,7 @@ import yagmail
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import redirect
-from send.models import RecipientEmail, SendEmail
+from send.models import RecipientEmail, SendEmail, GroupEmail
 
 
 def add_rec_email(request):
@@ -49,3 +49,18 @@ def del_email(request):
         del_e = RecipientEmail.objects.get(id=id)
         del_e.delete()
     return redirect('account')
+
+
+def create_group_def(request):
+    emails_to_group_id = request.POST.getlist('emails')
+    if len(emails_to_group_id) < 2:
+        return HttpResponse('Select min 2 mail')
+    name_group = request.POST.get('name_group')
+    group = GroupEmail.objects.create(user=request.user, name_group=name_group)
+    for id in emails_to_group_id:
+        rec_email = RecipientEmail.objects.get(id=id)
+        rec_email.group = group
+        rec_email.save()
+    return redirect('account')
+
+

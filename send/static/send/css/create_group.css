@@ -1,0 +1,13 @@
+
+.row {
+	margin: 40px 0;
+}
+
+.left-column {
+	display: inline-block;
+	width: 250px;
+}
+
+.right-column {
+	display: inline-block;
+}
