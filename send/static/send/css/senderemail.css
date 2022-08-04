@@ -30,3 +30,32 @@
 .right-column {
 	display: inline-block;
 }
+
+
+
+
+a.new_mess {
+  font-weight: 700;
+  color: white;
+    margin-top: 10px;
+    margin-left: 90%;
+  text-decoration: none;
+  padding: .8em 1em calc(.8em + 3px);
+  background: #000000;
+  transition: 0.2s;
+    border-radius: 1px;
+}
+a.new_mess:hover { background: #d74e4e; }
+a.new_mess:active {
+  background: #d74e4e;
+  box-shadow: 0 3px #d74e4e inset;
+}
+
+.form-inner label {
+   margin-top: 0;
+   font-family: 'Roboto', sans-serif;
+   font-weight: 500;
+   font-size: 16px;
+   color: #707981;
+}
+
