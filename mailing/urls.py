@@ -12,4 +12,5 @@ urlpatterns = [
     path('add_rec_email', add_rec_email, name='add_rec_email'),
     path('add_send_email', add_send_email, name='add_send_email'),
     path('send_email', send_email, name='send_email'),
+    path('logout', logout_user, name='logout'),
 ]

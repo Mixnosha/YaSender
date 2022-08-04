@@ -1,3 +1,4 @@
+from django.contrib.auth import logout
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
 from django.views.generic import CreateView, ListView, FormView
@@ -63,3 +64,8 @@ class SendEmailView(FormView):
             }
         )
         return context
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('register')

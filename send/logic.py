@@ -16,8 +16,13 @@ def add_send_email(request):
     email = request.POST.get('email')
     user = User.objects.get(username=request.POST.get('user'))
     password = request.POST.get('password')
-    SendEmail.objects.create(email=email, user=user, password=password)
-    return redirect('account')
+    try:
+        yag = yagmail.SMTP(user=email, password=password, host='smtp.gmail.com')
+        yag.send(subject='YaSender', contents='Successfully!\nYour mail has been successfully added')
+        SendEmail.objects.create(email=email, user=user, password=password)
+        return redirect('account')
+    except Exception:
+        return HttpResponse('Check if the data is correct!')
 
 
 def send_email(request):
@@ -33,3 +38,4 @@ def send_email(request):
     except Exception:
         return HttpResponse(f'Please check that the username and password are correct: \n {email}')
     return redirect('/')
+

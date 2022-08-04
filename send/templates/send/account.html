@@ -8,54 +8,71 @@
         <link rel="stylesheet"  type="text/css" href="{% static 'register/css/register.css' %}">
 </head>
 <body>
-<h2>{{ request.user.username }}</h2>
-<label>Your send gmail:</label><br><br>
-{% for email in send_emails %}
-    {{email.email}}<br>
-{% endfor %}
+<div class="two"><h1>{{ request.user.username }}</h1></div>
 
-<br><br>
+<div class="rec_email">
+    <div class="product_left">
+        <div class="decor_label">
+            <div class="form-inner">
+                <h4>Sender's mail</h4>
 
-<label>Your to send gmail:</label><br><br>
-
-{% for email in to_emails %}
-    {{email.email}}<br>
-{% endfor %}<br>
-
-<div class="product">
-
-<form class="decor" method="post" action="{% url 'add_rec_email' %}">
-    {% csrf_token %}
-    <div class="form-left-decoration"></div>
-<div class="form-right-decoration"></div>
-<div class="circle"></div>
-<div class="form-inner">
-    <h4>Recipient's mail</h4>
-    <input type="email" placeholder="email" name="email" maxlength="254" required id="id_email">
-    <select class='form_add_rec_email' name="user" required id="id_user">
-    <option value="{{ request.user }}" selected>{{ request.user }}</option>
-    </select><br>
-    <input type="submit" value="add">
+                {% for email in send_emails %}
+                    <label >{{email.email}}</label><br>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="product_right1">
+        <form class="decor" method="post" action="{% url 'add_send_email' %}">
+            {% csrf_token %}
+            <div class="form-left-decoration"></div>
+            <div class="form-right-decoration"></div>
+            <div class="circle"></div>
+            <div class="form-inner">
+                <h4>Sender's mail</h4>
+                <input type="email" placeholder="email" name="email" maxlength="254" required id="id_email">
+                <select class='form_add_rec_email' name="user" required id="id_user">
+                    <option value="{{ request.user }}" selected>{{ request.user }}</option></select>
+                <input type="password" placeholder="password" name="password" maxlength="50" required id="id_password">
+                <input type="submit" value="add">
+            </div>
+        </form>
+    </div>
 </div>
-</form>
-</div>
+<div class="clear"></div>
+<div class="rec_email">
+    <div class="product_left">
+        <div class="decor_label">
+            <div class="form-inner">
+                <h4>Recipient's mail</h4>
 
-
-<form class="decor" method="post" action="{% url 'add_send_email' %}">
-        {% csrf_token %}
-    <div class="form-left-decoration"></div>
-<div class="form-right-decoration"></div>
-<div class="circle"></div>
-<div class="form-inner">
-    <h4>Sender's mail</h4>
-    <input type="email" placeholder="email" name="email" maxlength="254" required id="id_email"><br></br>
-    <select class='form_add_rec_email' name="user" required id="id_user">
-        <option value="{{ request.user }}" selected>{{ request.user }}</option>
-    </select>
-    <input type="password" placeholder="password" name="password" maxlength="50" required id="id_password">
-    <br>
-    <input type="submit" value="add">
+                {% for email in to_emails %}
+                    <label >{{email.email}}</label><br>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    <div class="product_right">
+        <form class="decor" method="post" action="{% url 'add_rec_email' %}">
+            {% csrf_token %}
+            <div class="form-left-decoration"></div>
+            <div class="form-right-decoration"></div>
+            <div class="circle"></div>
+            <div class="form-inner">
+                <h4>Recipient's mail</h4>
+                <input type="email" placeholder="email" name="email" maxlength="254" required id="id_email">
+                <select class='form_add_rec_email' name="user" required id="id_user">
+                <option value="{{ request.user }}" selected>{{ request.user }}</option>
+                </select>
+                <input type="submit" value="add">
+            </div>
+        </form>
+    </div>
 </div>
-</form>
+<div class="clear"></div>
+<a href="{% url 'logout' %}" class="button7">logout</a>
 </body>
 </html>
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
