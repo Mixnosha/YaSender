@@ -1,5 +1,5 @@
 from django.contrib.auth.views import LoginView
-from django.shortcuts import  redirect
+from django.shortcuts import redirect
 from django.views.generic import CreateView, ListView, FormView
 from send.forms import RegisterUserForms, LoginUserForm, AddRecipientEmailForm, AddSendEmailForm, SendEmailForm
 from send.models import SendEmail, RecipientEmail
@@ -18,6 +18,7 @@ class RegisterUser(CreateView):
     def form_valid(self, form):
         user = form.save()
         return redirect('/')
+
 
 class LoginUser(LoginView):
     form_class = LoginUserForm
@@ -44,7 +45,7 @@ class AccountView(ListView):
                 'to_emails': RecipientEmail.objects.filter(user=self.request.user),
                 'form_add_rec_email': AddRecipientEmailForm(),
                 'form_add_send_email': AddSendEmailForm(),
-             }
+            }
         )
         print(context['form_add_send_email'])
         return context
@@ -54,4 +55,11 @@ class SendEmailView(FormView):
     template_name = 'send/sendemail.html'
     form_class = SendEmailForm
 
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context.update(
+            {
+                'rec_emails': RecipientEmail.objects.filter(user=self.request.user)
+            }
+        )
+        return context
