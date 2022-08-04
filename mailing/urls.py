@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path
-from send.logic import add_rec_email, add_send_email, send_email
+from send.logic import add_rec_email, add_send_email, send_email, del_email
 from send.views import *
 
 urlpatterns = [
@@ -13,4 +13,5 @@ urlpatterns = [
     path('add_send_email', add_send_email, name='add_send_email'),
     path('send_email', send_email, name='send_email'),
     path('logout', logout_user, name='logout'),
+    path('del_email', del_email, name='del_email')
 ]

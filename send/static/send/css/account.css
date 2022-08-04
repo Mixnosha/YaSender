@@ -97,3 +97,9 @@ a.button2:active {
   background: #d74e4e;
   box-shadow: 0 3px #d74e4e inset;
 }
+
+.del_email{
+    color: wheat;
+    background-color: #fa2626;
+    border-radius: 7px;
+}

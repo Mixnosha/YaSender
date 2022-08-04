@@ -39,3 +39,12 @@ def send_email(request):
         return HttpResponse(f'Please check that the username and password are correct: \n {email}')
     return redirect('/')
 
+def del_email(request):
+    id = request.GET.get('del_email_id')
+    if request.GET.get('type_email') == 'send_email':
+        del_e = SendEmail.objects.get(id=id)
+        del_e.delete()
+    else:
+        del_e = RecipientEmail.objects.get(id=id)
+        del_e.delete()
+    return redirect('account')

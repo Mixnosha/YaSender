@@ -17,7 +17,11 @@
                 <h4>Sender's mail</h4>
 
                 {% for email in send_emails %}
-                    <label >{{email.email}}</label><br>
+                    <form method="get" action="{% url 'del_email' %}">
+                    <label >{{email.email}}<button type="submit" class="del_email">del</button></label><br>
+                    <input type="hidden" name="del_email_id" value="{{ email.id }}">
+                    <input type="hidden" name="type_email" value="send_email">
+                    </form>
                 {% endfor %}
             </div>
         </div>
@@ -47,7 +51,11 @@
                 <h4>Recipient's mail</h4>
 
                 {% for email in to_emails %}
-                    <label >{{email.email}}</label><br>
+                    <form method="get" action="{% url 'del_email' %}">
+                        <label >{{email.email}}<button type="submit" class="del_email">del</button></label>
+                        <input type="hidden" name="del_email_id" value="{{ email.id }}">
+                        <input type="hidden" name="type_email" value="to_emails">
+                    </form>
                 {% endfor %}
             </div>
         </div>
