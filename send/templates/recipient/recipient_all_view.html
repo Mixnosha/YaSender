@@ -1,12 +1,29 @@
+{% load static %}
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <title>recipient view</title>
+    <link rel="stylesheet"  type="text/css" href="{% static 'register/css/register.css' %}">
+    <link rel="stylesheet"  type="text/css" href="{% static 'send/css/account.css' %}">
 </head>
 <body>
-    {% for email in recipient_all %}
-        {{ email }}<br>
-    {% endfor %}
+    <div class="rec_email">
+    <div class="product_left">
+        <div class="decor_label">
+            <div class="form-inner">
+                <h4>Recipient's mail</h4>
+
+                {% for email in recipient_all %}
+                    <form method="get" action="{% url 'del_email' %}">
+                        <label >{{email.email}}</label><button type="submit" class="del_email">del</button>
+                        <input type="hidden" name="del_email_id" value="{{ email.id }}">
+                        <input type="hidden" name="type_email" value="to_emails">
+                    </form><br>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    </div>
 </body>
 </html>

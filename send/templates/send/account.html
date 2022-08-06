@@ -51,12 +51,9 @@
                 <h4>Recipient's mail</h4>
 
                 {% for email in to_emails %}
-                    <form method="get" action="{% url 'del_email' %}">
-                        <label >{{email.email}}</label><button type="submit" class="del_email">del</button>
-                        <input type="hidden" name="del_email_id" value="{{ email.id }}">
-                        <input type="hidden" name="type_email" value="to_emails">
-                    </form><br>
+                        <label >{{email.email}}</label><br><br>
                 {% endfor %}
+                <a href="recipient/{{ user.username }}"><button >view all</button></a>
             </div>
         </div>
     </div>

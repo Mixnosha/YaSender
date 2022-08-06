@@ -47,11 +47,12 @@ class AccountView(ListView):
         context = super().get_context_data(**kwargs)
         context.update(
             {
-                'to_emails': RecipientEmail.objects.filter(user=self.request.user),
+                'to_emails': RecipientEmail.objects.filter(user=self.request.user)[:3],
                 'form_add_rec_email': AddRecipientEmailForm(),
                 'form_add_send_email': AddSendEmailForm(),
                 'rec_emails': RecipientEmail.objects.filter(user=self.request.user),
-                'groups': GroupEmail.objects.filter(user=self.request.user)
+                'groups': GroupEmail.objects.filter(user=self.request.user),
+                'user': self.request.user
             }
         )
         return context

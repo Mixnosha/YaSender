@@ -2,6 +2,7 @@ import yagmail
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import redirect
+from django.urls import reverse
 from psycopg2.sql import NULL
 
 from send.models import RecipientEmail, SendEmail, GroupEmail
@@ -57,7 +58,7 @@ def del_email(request):
             email.group = None
             email.save()
         del_e.delete()
-    return redirect('account')
+    return redirect(reverse('recipient_all_view', kwargs={'username': request.user.username}))
 
 
 def create_group_def(request):
