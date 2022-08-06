@@ -43,8 +43,12 @@
                 <input type="submit" value="add">
             </div>
         </form>
-
     </div>
+    <form action="{% url 'recipient:add_email_for_file' %}" method="POST" enctype="multipart/form-data">
+        <input type="file" name="uploadedFile">
+        {% csrf_token %}
+        <input type="submit" value="Upload">
+    </form>
 </body>
 </html>
 <script>
@@ -53,7 +57,13 @@
     obj.onclick = function()
      {
         let obj = document.querySelector(".product_right");
-        obj.style.display = "block";
+        if (obj.style.display == 'none'){
+            obj.style.display = "block";
+        }
+        else{
+            obj.style.display = "none";
+        }
+
 
     }
 

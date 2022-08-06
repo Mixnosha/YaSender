@@ -21,6 +21,7 @@
 }
 .product_right1{
      float: left;
+    display: none;
      margin-left: 190px;
 }
 

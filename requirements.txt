@@ -1,3 +1,4 @@
 django==4.1
 psycopg2==2.9.3
 yagmail==0.15.280
+Pillow==9.2.0

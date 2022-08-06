@@ -12,7 +12,7 @@ def add_rec_email(request):
     email = request.POST.get('email')
     user = User.objects.get(username=request.POST.get('user'))
     RecipientEmail.objects.create(email=email, user=user)
-    return redirect(reverse('recipient_all_view', kwargs={'username': request.user.username}))
+    return redirect(reverse('recipient:recipient_all_view', kwargs={'username': request.user.username}))
 
 
 def add_send_email(request):
@@ -58,7 +58,7 @@ def del_email(request):
             email.group = None
             email.save()
         del_e.delete()
-    return redirect(reverse('recipient_all_view', kwargs={'username': request.user.username}))
+    return redirect(reverse('recipient:recipient_all_view', kwargs={'username': request.user.username}))
 
 
 def create_group_def(request):

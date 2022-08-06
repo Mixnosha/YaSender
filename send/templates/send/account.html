@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <title>Account</title>
     <link rel="stylesheet"  type="text/css" href="{% static 'send/css/account.css' %}">
-        <link rel="stylesheet"  type="text/css" href="{% static 'register/css/register.css' %}">
+    <link rel="stylesheet"  type="text/css" href="{% static 'register/css/register.css' %}">
 </head>
 <body>
 <div class="two"><h1>{{ request.user.username }}</h1></div>
@@ -22,10 +22,12 @@
                     <input type="hidden" name="del_email_id" value="{{ email.id }}">
                     <input type="hidden" name="type_email" value="send_email">
                     </form>
-                {% endfor %}
+                {% endfor %}<br>
+                <input type="button" value="add" class="chert">
             </div>
         </div>
     </div>
+
     <div class="product_right1">
         <form class="decor" method="post" action="{% url 'add_send_email' %}">
             {% csrf_token %}
@@ -78,6 +80,8 @@
             </div>
         </div>
     </div>
+</div>
+
 <form class="decor" method="post" action="{% url 'create_group_def' %}">
     {% csrf_token %}
     <div class="form-left-decoration"></div>
@@ -101,10 +105,28 @@
 </form>
 
 
-
 <a href="{% url 'main_page' %}" class="button">new message</a>
 <a href="{% url 'logout' %}" class="button2">logout</a>
 
 </body>
 </html>
 
+<script>
+
+    let obj = document.querySelector(".chert");
+    obj.onclick = function()
+     {
+        let obj = document.querySelector(".product_right1");
+        if (obj.style.display == 'none'){
+            obj.style.display = "block";
+        }
+        else{
+            obj.style.display = "none";
+        }
+
+
+    }
+
+
+
+</script>
