@@ -1,9 +1,9 @@
-from django.contrib.auth import logout
+from django.contrib.auth import logout,  login
 from django.contrib.auth.views import LoginView
 from django.shortcuts import redirect
+from django.urls import reverse_lazy
 from django.views.generic import CreateView, ListView, FormView
-from send.forms import RegisterUserForms, LoginUserForm, AddRecipientEmailForm, AddSendEmailForm, SendEmailForm, \
-    CreateGroupForm
+from send.forms import RegisterUserForms, LoginUserForm, AddRecipientEmailForm, AddSendEmailForm, SendEmailForm
 from send.models import SendEmail, RecipientEmail, GroupEmail
 
 
@@ -19,7 +19,8 @@ class RegisterUser(CreateView):
 
     def form_valid(self, form):
         user = form.save()
-        return redirect('/')
+        login(self.request, user)
+        return redirect('account')
 
 
 class LoginUser(LoginView):
@@ -30,6 +31,9 @@ class LoginUser(LoginView):
         context = super().get_context_data(**kwargs)
         context['title'] = 'Login'
         return context
+
+    def get_success_url(self):
+        return reverse_lazy('account')
 
 
 class AccountView(ListView):

@@ -2,6 +2,8 @@ import yagmail
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import redirect
+from psycopg2.sql import NULL
+
 from send.models import RecipientEmail, SendEmail, GroupEmail
 
 
@@ -35,7 +37,6 @@ def send_email(request):
     try:
         yag = yagmail.SMTP(user=email, password=password, host='smtp.gmail.com')
         yag.send(to=to, subject=subject, contents=[body, ])
-        SendEmail.objects.create()
     except Exception:
         return HttpResponse(f'Please check that the username and password are correct: \n {email}')
     return redirect('/')
@@ -51,6 +52,10 @@ def del_email(request):
         del_e.delete()
     elif request.GET.get('type_email') == 'group':
         del_e = GroupEmail.objects.get(id=id)
+        emails = RecipientEmail.objects.filter(group=del_e)
+        for email in emails:
+            email.group = None
+            email.save()
         del_e.delete()
     return redirect('account')
 

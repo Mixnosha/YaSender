@@ -18,7 +18,7 @@
 
                 {% for email in send_emails %}
                     <form method="get" action="{% url 'del_email' %}">
-                    <label >{{email.email}}<button type="submit" class="del_email">del</button></label><br>
+                    <label >{{email.email}}</label><button type="submit" class="del_email">del</button><br>
                     <input type="hidden" name="del_email_id" value="{{ email.id }}">
                     <input type="hidden" name="type_email" value="send_email">
                     </form>
@@ -52,7 +52,7 @@
 
                 {% for email in to_emails %}
                     <form method="get" action="{% url 'del_email' %}">
-                        <label >{{email.email}}<button type="submit" class="del_email">del</button></label>
+                        <label >{{email.email}}</label><button type="submit" class="del_email">del</button>
                         <input type="hidden" name="del_email_id" value="{{ email.id }}">
                         <input type="hidden" name="type_email" value="to_emails">
                     </form><br>
@@ -89,7 +89,7 @@
 
                 {% for group in groups %}
                     <form method="get" action="{% url 'del_email' %}">
-                        <label >{{group.name_group}}<button type="submit" class="del_email">del</button></label>
+                        <label >{{group.name_group}}</label><button type="submit" class="del_email">del</button>
                         <input type="hidden" name="del_email_id" value="{{ group.id }}">
                         <input type="hidden" name="type_email" value="group">
                     </form><br>
