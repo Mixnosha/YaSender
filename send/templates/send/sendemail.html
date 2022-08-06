@@ -1,0 +1,40 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Send</title>
+    <link rel="stylesheet"  type="text/css" href="{% static 'register/css/register.css' %}">
+    <link rel="stylesheet"  type="text/css" href="{% static 'send/css/senderemail.css' %}">
+</head>
+<body>
+<a href="{% url 'account' %}" class="new_mess">{{ request.user.username }}</a>
+<form class="decor" method="post" action="{% url 'send_email' %}">
+<div class="form-left-decoration"></div>
+<div class="form-right-decoration"></div>
+<div class="circle"></div>
+<div class="form-inner">
+{% csrf_token %}
+<h4>New message</h4>
+ <select name="send_email" required id="id_send_email">
+    {% for f in form.send_email %}
+             <option value="{{ f.id  }}" >{{ f }}</option>
+    {% endfor %}
+ </select>
+    {{ form.subject }}
+    {{ form.text }}
+    <label>Send to:</label><br>
+
+    {% for email in rec_emails %}
+            <div class="row">
+	            <div class="left-column"><label class="label_email">{{ email.email }}</label></div>
+	            <div class="right-column"><input  type="checkbox" name="emails" value="{{ email.email }}"></div>
+            </div>
+    {% endfor %}
+
+    <input type="submit" value="send message">
+</div>
+</form>
+</body>
+</html>
+
