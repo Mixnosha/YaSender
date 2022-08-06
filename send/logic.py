@@ -12,7 +12,7 @@ def add_rec_email(request):
     email = request.POST.get('email')
     user = User.objects.get(username=request.POST.get('user'))
     RecipientEmail.objects.create(email=email, user=user)
-    return redirect('account')
+    return redirect(reverse('recipient_all_view', kwargs={'username': request.user.username}))
 
 
 def add_send_email(request):
@@ -72,5 +72,6 @@ def create_group_def(request):
         rec_email.group = group
         rec_email.save()
     return redirect('account')
+
 
 

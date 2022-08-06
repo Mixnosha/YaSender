@@ -57,23 +57,7 @@
             </div>
         </div>
     </div>
-    <div class="product_right">
-        <form class="decor" method="post" action="{% url 'add_rec_email' %}">
-            {% csrf_token %}
-            <div class="form-left-decoration"></div>
-            <div class="form-right-decoration"></div>
-            <div class="circle"></div>
-            <div class="form-inner">
-                <h4>Recipient's mail</h4>
-                <input type="email" placeholder="email" name="email" maxlength="254" required id="id_email">
-                <select class='form_add_rec_email' name="user" required id="id_user">
-                <option value="{{ request.user }}" selected>{{ request.user }}</option>
-                </select>
-                <input type="submit" value="add">
-            </div>
-        </form>
 
-    </div>
 </div>
 <div class="clear"></div>
 

@@ -6,6 +6,7 @@
     <title>recipient view</title>
     <link rel="stylesheet"  type="text/css" href="{% static 'register/css/register.css' %}">
     <link rel="stylesheet"  type="text/css" href="{% static 'send/css/account.css' %}">
+    <link rel="stylesheet"  type="text/css" href="{% static 'recipient/css/recipient_all_view.css' %}">
 </head>
 <body>
     <div class="rec_email">
@@ -20,10 +21,42 @@
                         <input type="hidden" name="del_email_id" value="{{ email.id }}">
                         <input type="hidden" name="type_email" value="to_emails">
                     </form><br>
+
                 {% endfor %}
+                <input type="button" class="chert" onclick="return hidden();" value="+ add">
             </div>
         </div>
     </div>
     </div>
+    <div class="product_right" >
+        <form class="decor" method="post" action="{% url 'add_rec_email' %}">
+            {% csrf_token %}
+            <div class="form-left-decoration"></div>
+            <div class="form-right-decoration"></div>
+            <div class="circle"></div>
+            <div class="form-inner">
+                <h4>Recipient's mail</h4>
+                <input type="email" placeholder="email" name="email" maxlength="254" required id="id_email">
+                <select class='form_add_rec_email' name="user" required id="id_user">
+                <option value="{{ request.user }}" selected>{{ request.user }}</option>
+                </select>
+                <input type="submit" value="add">
+            </div>
+        </form>
+
+    </div>
 </body>
 </html>
+<script>
+
+    let obj = document.querySelector(".chert");
+    obj.onclick = function()
+     {
+        let obj = document.querySelector(".product_right");
+        obj.style.display = "block";
+
+    }
+
+
+
+</script>
