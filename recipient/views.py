@@ -16,4 +16,10 @@ class RecipientAllView(ListView):
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super().get_context_data()
         context['form'] = AddMailFromFile()
+        context.update(
+            {
+                'added': self.request.GET.get('added'),
+                'errors': self.request.GET.get('errors'),
+            }
+        )
         return context

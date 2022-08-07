@@ -1,6 +1,5 @@
-from django.shortcuts import redirect, render
+from django.shortcuts import redirect
 from validate_email import validate_email
-from recipient.forms import AddMailFromFile
 from send.models import RecipientEmail
 
 
@@ -32,14 +31,6 @@ def add_email_for_file(request):
         res = check_for_uniqueness_mails(request, mails)
         for mail in res['unique_mail']:
             RecipientEmail.objects.create(user=request.user, email=mail)
-        context = {
-            'added': res['added'],
-            'errors': res['errors'],
-            'recipient_all': RecipientEmail.objects.filter(user__username=request.user.username),
-            'form': AddMailFromFile()
-        }
-    else:
-        pass
-    return render(request, 'recipient/recipient_all_view.html', context=context)
-
-
+    response = redirect('recipient:recipient_all_view', username=request.user.username)
+    response['Location'] += '?added=' + str(res['added'])+'&errors=' + str(res['errors'])
+    return response
