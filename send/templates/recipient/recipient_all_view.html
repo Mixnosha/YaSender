@@ -23,6 +23,11 @@
                     </form><br>
 
                 {% endfor %}
+
+                {% if added or errors %}
+                    <label style="color: #67de2c">added {{ added  }}</label>
+                    <label style="color: #e73939">errors  {{ errors  }}</label>
+                {% endif %}
                 <input type="button" class="add_mail"  value="add">
                 <input type="button" class="add_file"  value="from file">
             </div>
