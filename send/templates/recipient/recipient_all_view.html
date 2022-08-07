@@ -7,14 +7,15 @@
     <link rel="stylesheet"  type="text/css" href="{% static 'register/css/register.css' %}">
     <link rel="stylesheet"  type="text/css" href="{% static 'send/css/account.css' %}">
     <link rel="stylesheet"  type="text/css" href="{% static 'recipient/css/recipient_all_view.css' %}">
+
 </head>
 <body>
+    <a href="{% url 'account' %}" class="new_mess">{{ request.user.username }}</a>
     <div class="rec_email">
     <div class="product_left">
         <div class="decor_label">
             <div class="form-inner">
                 <h4>Recipient's mail</h4>
-
                 {% for email in recipient_all %}
                     <form method="get" action="{% url 'del_email' %}">
                         <label >{{email.email}}</label><button type="submit" class="del_email">del</button>
@@ -38,7 +39,7 @@
     </div>
     </div>
     <div class="product_right" >
-        <form class="decor" method="post" action="{% url 'add_rec_email' %}">
+        <form class="decor" method="post" action="{% url 'recipient:add_rec_email' %}">
             {% csrf_token %}
             <div class="form-left-decoration"></div>
             <div class="form-right-decoration"></div>
@@ -59,30 +60,33 @@
             <div class="form-right-decoration"></div>
             <div class="circle"></div><div class="form-inner">
             {% csrf_token %}
-        {{ form.file }}
-        <input type="submit" value="Upload">
+            <h4>Upload file</h4>
+            {{ form.file }}
+            <div id="input0"></div>
+            <div  onclick="addInput()"><button type="button">add group</button></div>
+            <input type="submit" value="Upload">
         </div>
     </form>
     </div>
 
 </body>
 </html>
-<script>
 
+<script>
     let obj = document.querySelector(".add_mail");
     let file = document.querySelector(".add_file");
-    obj.onclick = function()
-     {
-        let obj = document.querySelector(".product_right");
-        let uplaod = document.querySelector(".file_form");
-        if (obj.style.display == 'none'){
-            uplaod.style.display = "none";
-            obj.style.display = "block";
-        }
-        else{
-            obj.style.display = "none";
-        }
+obj.onclick = function()
+{
+    let obj = document.querySelector(".product_right");
+    let upload = document.querySelector(".file_form");
+    if (obj.style.display == 'none'){
+        upload.style.display = "none";
+        obj.style.display = "block";
     }
+    else{
+        obj.style.display = "none";
+    }
+}
 
     file.onclick = function()
      {
@@ -96,7 +100,16 @@
             obj.style.display = "none";
         }
     }
+    var x = 0;
 
-
-
+function addInput() {
+	if (x < 5) {
+    var str = '<input type="text" placeholder="name group" id="name_group' + (x + 1) + '"><div id="input' + (x + 1) + '"></div>';
+    document.getElementById('input' + x).innerHTML = str;
+    x++;
+  } else
+  {
+  	alert('STOP it!');
+  }
+}
 </script>

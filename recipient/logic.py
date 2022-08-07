@@ -1,8 +1,24 @@
+import urllib
+
+from django.contrib.auth.models import User
+from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
+from django.urls import reverse
 from validate_email import validate_email
 from send.models import RecipientEmail
 
+def redirect_with_params(viewname, url_param=None, **kwargs):
+    if url_param != None:
+        key = list(url_param.keys())[0]
+        val = url_param[key]
+        rev = reverse(viewname, kwargs={key: val})
+    else:
+        rev = reverse(viewname)
+    params = urllib.parse.urlencode(kwargs)
+    if params:
+        rev = '{}?{}'.format(rev, params)
 
+    return HttpResponseRedirect(rev)
 def check_for_uniqueness_mails(request, mails):
     added = 0
     errors = 0
@@ -30,12 +46,33 @@ def add_email_for_file(request):
             for line in file.readlines():
                 mails.append(line.decode('UTF-8'))
         except UnicodeDecodeError:
-            response = redirect('recipient:recipient_all_view', username=request.user.username)
-            response['Location'] += '?file_error=' + str(True)
-            return response
+            return redirect_with_params(
+                'recipient:recipient_all_view',
+                url_param={'username': request.user.username},
+                file_error=True,
+            )
         res = check_for_uniqueness_mails(request, mails)
         for mail in res['unique_mail']:
             RecipientEmail.objects.create(user=request.user, email=mail)
-    response = redirect('recipient:recipient_all_view', username=request.user.username)
-    response['Location'] += '?added=' + str(res['added'])+'&errors=' + str(res['errors'])
-    return response
+
+    return redirect_with_params(
+        'recipient:recipient_all_view',
+        url_param={'username': request.user.username},
+        added=res['added'],
+        errors=res['errors']
+    )
+
+def add_rec_email(request):
+    mail = request.POST.get('email')
+    res = check_for_uniqueness_mails(request, [mail, ])
+    user = User.objects.get(username=request.POST.get('user'))
+    try:
+        RecipientEmail.objects.create(email=res['unique_mail'][0], user=user)
+    except Exception:
+        pass
+    return redirect_with_params(
+        'recipient:recipient_all_view',
+        url_param={'username': request.user.username},
+        added=res['added'],
+        errors=res['errors']
+    )

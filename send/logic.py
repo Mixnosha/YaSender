@@ -5,21 +5,10 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from psycopg2.sql import NULL
 
-from recipient.logic import check_for_uniqueness_mails
+from recipient.logic import check_for_uniqueness_mails, redirect_with_params
 from send.models import RecipientEmail, SendEmail, GroupEmail
 
 
-def add_rec_email(request):
-    mail = request.POST.get('email')
-    res = check_for_uniqueness_mails(request, [mail, ])
-    user = User.objects.get(username=request.POST.get('user'))
-    try:
-        RecipientEmail.objects.create(email=res['unique_mail'][0], user=user)
-    except Exception:
-        pass
-    response = redirect('recipient:recipient_all_view', username=request.user.username)
-    response['Location'] += '?added=' + str(res['added']) + '&errors=' + str(res['errors'])
-    return response
 
 
 def add_send_email(request):
@@ -61,10 +50,6 @@ def del_email(request):
         del_e.delete()
     elif request.GET.get('type_email') == 'group':
         del_e = GroupEmail.objects.get(id=id)
-        emails = RecipientEmail.objects.filter(group=del_e)
-        for email in emails:
-            email.group = None
-            email.save()
         del_e.delete()
     return redirect(reverse('recipient:recipient_all_view', kwargs={'username': request.user.username}))
 
@@ -74,9 +59,13 @@ def create_group_def(request):
     if len(emails_to_group_id) < 2:
         return HttpResponse('Select min 2 mail')
     name_group = request.POST.get('name_group')
-    group = GroupEmail.objects.create(user=request.user, name_group=name_group)
-    for id in emails_to_group_id:
-        rec_email = RecipientEmail.objects.get(id=id)
-        rec_email.group = group
-        rec_email.save()
-    return redirect('account')
+    try:
+        GroupEmail.objects.get(name_group=name_group, user=request.user)
+        return redirect_with_params('account', error_unique=True)
+    except Exception:
+        group = GroupEmail.objects.create(user=request.user, name_group=name_group)
+        for id in emails_to_group_id:
+            rec_email = RecipientEmail.objects.get(id=id)
+            rec_email.groups.add(group)
+            rec_email.save()
+        return redirect_with_params('account', error_unique=False)

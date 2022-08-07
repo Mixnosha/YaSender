@@ -14,7 +14,7 @@ class SendEmail(models.Model):
     email = models.EmailField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
     password = models.CharField(max_length=50)
-    group = models.ForeignKey('GroupEmail', on_delete=models.SET_DEFAULT, default='', blank=True, null=True)
+    group = models.ForeignKey('GroupEmail', on_delete=models.SET_NULL, null=True,    blank=True)
 
     def __str__(self):
         return self.email
@@ -23,7 +23,7 @@ class SendEmail(models.Model):
 class RecipientEmail(models.Model):
     email = models.EmailField()
     user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    group = models.ForeignKey('GroupEmail', on_delete=models.CASCADE, blank=True, null=True)
+    groups = models.ManyToManyField('GroupEmail')
 
     def __str__(self):
         return self.email

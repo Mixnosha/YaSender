@@ -52,9 +52,11 @@ class AccountView(ListView):
                 'form_add_send_email': AddSendEmailForm(),
                 'rec_emails': RecipientEmail.objects.filter(user=self.request.user),
                 'groups': GroupEmail.objects.filter(user=self.request.user),
-                'user': self.request.user
+                'user': self.request.user,
+                'error_unique': self.request.GET.get('error_unique'),
             }
         )
+        print(context['error_unique'])
         return context
 
 
