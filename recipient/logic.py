@@ -5,7 +5,8 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import redirect
 from django.urls import reverse
 from validate_email import validate_email
-from send.models import RecipientEmail
+from send.models import RecipientEmail, GroupEmail
+
 
 def redirect_with_params(viewname, url_param=None, **kwargs):
     if url_param != None:
@@ -51,10 +52,19 @@ def add_email_for_file(request):
                 url_param={'username': request.user.username},
                 file_error=True,
             )
-        res = check_for_uniqueness_mails(request, mails)
-        for mail in res['unique_mail']:
-            RecipientEmail.objects.create(user=request.user, email=mail)
 
+        res = check_for_uniqueness_mails(request, mails)
+        groups = get_groups_html(request)
+        for mail in res['unique_mail']:
+            obj = RecipientEmail.objects.create(user=request.user, email=mail)
+            for group in groups:
+                try:
+                    g = GroupEmail.objects.get(name_group=group, user=request.user)
+                    obj.groups.add(g)
+                except Exception:
+                    g = g = GroupEmail.objects.create(name_group=group, user=request.user)
+                    obj.groups.add(g)
+            obj.save()
     return redirect_with_params(
         'recipient:recipient_all_view',
         url_param={'username': request.user.username},
@@ -76,3 +86,12 @@ def add_rec_email(request):
         added=res['added'],
         errors=res['errors']
     )
+
+def get_groups_html(request):
+    groups = []
+    for num in range(1,6):
+        if request.POST.get('name_group'+str(num)):
+            groups.append(request.POST.get('name_group'+str(num)))
+        else:
+            break
+    return groups

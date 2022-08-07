@@ -56,17 +56,17 @@
     </div>
     <div class="file_form" >
         <form class="decor" action="{% url 'recipient:add_email_for_file' %}" method="POST" enctype="multipart/form-data">
-        <div class="form-left-decoration"></div>
-            <div class="form-right-decoration"></div>
-            <div class="circle"></div><div class="form-inner">
-            {% csrf_token %}
-            <h4>Upload file</h4>
-            {{ form.file }}
-            <div id="input0"></div>
-            <div  onclick="addInput()"><button type="button">add group</button></div>
-            <input type="submit" value="Upload">
-        </div>
-    </form>
+            <div class="form-left-decoration"></div>
+                <div class="form-right-decoration"></div>
+                <div class="circle"></div><div class="form-inner">
+                {% csrf_token %}
+                <h4>Upload file</h4>
+                {{ form.file }}
+                <div id="input0"></div>
+                <div  onclick="addInput()"><button type="button">add group</button></div>
+                <input type="submit" value="Upload">
+            </div>
+        </form>
     </div>
 
 </body>
@@ -104,7 +104,7 @@ obj.onclick = function()
 
 function addInput() {
 	if (x < 5) {
-    var str = '<input type="text" placeholder="name group" id="name_group' + (x + 1) + '"><div id="input' + (x + 1) + '"></div>';
+    var str = '<input type="text" name="name_group'+ (x + 1) + '" placeholder="name group" id="name_group"><div id="input' + (x + 1) + '"></div>';
     document.getElementById('input' + x).innerHTML = str;
     x++;
   } else

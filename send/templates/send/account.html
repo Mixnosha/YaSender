@@ -77,9 +77,9 @@
                         <input type="hidden" name="type_email" value="group">
                     </form><br>
                 {% endfor %}
-                {% if error_unique %}
+                {% if error_unique == 'True' %}
                     <label style="color: #e73939; font-size: 14px">a group with the same name already exists</label>
-                {% elif error_unique == False %}
+                {% elif error_unique == 'False' %}
                     <label style="color: #67de2c; font-size: 14px">added group</label>
                 {% endif %}
             </div>

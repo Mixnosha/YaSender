@@ -53,7 +53,7 @@ class AccountView(ListView):
                 'rec_emails': RecipientEmail.objects.filter(user=self.request.user),
                 'groups': GroupEmail.objects.filter(user=self.request.user),
                 'user': self.request.user,
-                'error_unique': self.request.GET.get('error_unique'),
+                'error_unique': str(self.request.GET.get('error_unique')),
             }
         )
         print(context['error_unique'])
