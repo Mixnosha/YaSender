@@ -5,14 +5,21 @@ from django.shortcuts import redirect
 from django.urls import reverse
 from psycopg2.sql import NULL
 
+from recipient.logic import check_for_uniqueness_mails
 from send.models import RecipientEmail, SendEmail, GroupEmail
 
 
 def add_rec_email(request):
-    email = request.POST.get('email')
+    mail = request.POST.get('email')
+    res = check_for_uniqueness_mails(request, [mail, ])
     user = User.objects.get(username=request.POST.get('user'))
-    RecipientEmail.objects.create(email=email, user=user)
-    return redirect(reverse('recipient:recipient_all_view', kwargs={'username': request.user.username}))
+    try:
+        RecipientEmail.objects.create(email=res['unique_mail'][0], user=user)
+    except Exception:
+        pass
+    response = redirect('recipient:recipient_all_view', username=request.user.username)
+    response['Location'] += '?added=' + str(res['added']) + '&errors=' + str(res['errors'])
+    return response
 
 
 def add_send_email(request):
@@ -41,6 +48,7 @@ def send_email(request):
     except Exception:
         return HttpResponse(f'Please check that the username and password are correct: \n {email}')
     return redirect('/')
+
 
 def del_email(request):
     id = request.GET.get('del_email_id')
@@ -72,6 +80,3 @@ def create_group_def(request):
         rec_email.group = group
         rec_email.save()
     return redirect('account')
-
-
-

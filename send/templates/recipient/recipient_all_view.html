@@ -27,7 +27,10 @@
                 {% if added or errors %}
                     <label style="color: #67de2c">added {{ added  }}</label>
                     <label style="color: #e73939">errors  {{ errors  }}</label>
+                {% elif file_error %}
+                    <label style="color: #e73939">invalid file format</label>
                 {% endif %}
+
                 <input type="button" class="add_mail"  value="add">
                 <input type="button" class="add_file"  value="from file">
             </div>

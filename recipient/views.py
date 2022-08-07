@@ -20,6 +20,7 @@ class RecipientAllView(ListView):
             {
                 'added': self.request.GET.get('added'),
                 'errors': self.request.GET.get('errors'),
+                'file_error': self.request.GET.get('file_error')
             }
         )
         return context

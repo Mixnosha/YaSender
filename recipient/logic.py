@@ -26,8 +26,13 @@ def add_email_for_file(request):
     if request.method == "POST":
         file = request.FILES["file"]
         mails = []
-        for line in file.readlines():
-            mails.append(line.decode('UTF-8'))
+        try:
+            for line in file.readlines():
+                mails.append(line.decode('UTF-8'))
+        except UnicodeDecodeError:
+            response = redirect('recipient:recipient_all_view', username=request.user.username)
+            response['Location'] += '?file_error=' + str(True)
+            return response
         res = check_for_uniqueness_mails(request, mails)
         for mail in res['unique_mail']:
             RecipientEmail.objects.create(user=request.user, email=mail)
