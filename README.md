@@ -12,6 +12,13 @@
 
 ![img.png](readme_imgs/img_1.png)
 
+Adding Email from file and create groups for this emails
+![img.png](readme_imgs/img_4.png)
+![img_1.png](readme_imgs/img_3.png)
+
+
+Sending group emails
+![img_2.png](readme_imgs/img_2.png)
 
 ### 👷‍♂️Implemented on the site
 
