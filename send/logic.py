@@ -1,4 +1,5 @@
 import yagmail
+import time
 from django.contrib.auth.models import User
 from django.http import HttpResponse
 from django.shortcuts import redirect
@@ -25,19 +26,41 @@ def add_send_email(request):
 
 
 def send_email(request):
-    to = request.POST.getlist('emails')
     email = SendEmail.objects.get(id=request.POST.get('send_email'))
     password = email.password
     email = email.email
     subject = request.POST.get('subject')
     body = request.POST.get('text')
-    try:
-        yag = yagmail.SMTP(user=email, password=password, host='smtp.gmail.com')
-        yag.send(to=to, subject=subject, contents=[body, ])
-    except Exception:
+    if not request.POST.get('groups'):
+        to = request.POST.getlist('emails')
+        try:
+            yag = yagmail.SMTP(user=email, password=password, host='smtp.gmail.com')
+            yag.send(to=to, subject=subject, contents=[body, ])
+        except Exception as e:
+            print(e)
         return HttpResponse(f'Please check that the username and password are correct: \n {email}')
+    else:
+        id_group = request.POST.get('groups')
+        group = GroupEmail.objects.get(id=id_group)
+        to = [ i.email for i in RecipientEmail.objects.filter(groups=group)]
+        print(email)
+        print(password)
+        print(body)
+        print(subject)
+        try:
+            start_time = time.time()
+            yag = yagmail.SMTP(user=email, password=password, host='smtp.gmail.com')
+            print('Отправка пошла')
+            yag.send(to=to, subject=subject, contents=[body, ])
+
+            print("--- %s seconds ---" % (time.time() - start_time))
+            print("Отправка завершилась")
+        except Exception as e:
+            print(e)
+            return HttpResponse(f'Please check that the username and password are correct: \n {email}')
     return redirect('/')
 
+    
 
 def del_email(request):
     id = request.GET.get('del_email_id')

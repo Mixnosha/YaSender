@@ -1,5 +1,5 @@
 from django.urls import path
-from send.logic import  add_send_email, send_email, del_email, create_group_def
+from send.logic import add_send_email, send_email, del_email, create_group_def
 from send.views import *
 
 

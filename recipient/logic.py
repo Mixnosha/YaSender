@@ -89,7 +89,7 @@ def add_rec_email(request):
 
 def get_groups_html(request):
     groups = []
-    for num in range(1,6):
+    for num in range(1, 6):
         if request.POST.get('name_group'+str(num)):
             groups.append(request.POST.get('name_group'+str(num)))
         else:

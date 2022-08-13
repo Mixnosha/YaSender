@@ -66,11 +66,12 @@ class SendEmailView(FormView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context.update(
-            {
-                'rec_emails': RecipientEmail.objects.filter(user=self.request.user)
-            }
-        )
+        if self.request.user.is_authenticated:
+            context.update(
+                {
+                    'rec_emails': RecipientEmail.objects.filter(user=self.request.user)
+                }
+            )
         return context
 
 

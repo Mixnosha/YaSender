@@ -8,6 +8,8 @@
     <link rel="stylesheet"  type="text/css" href="{% static 'send/css/senderemail.css' %}">
 </head>
 <body>
+{% if request.user.is_authenticated %}
+
 <a href="{% url 'account' %}" class="new_mess">{{ request.user.username }}</a>
 <form class="decor" method="post" action="{% url 'send_email' %}">
 <div class="form-left-decoration"></div>
@@ -24,7 +26,7 @@
     {{ form.subject }}
     {{ form.text }}
     <label>Send to:</label><br>
-
+    {{form.groups}}
     {% for email in rec_emails %}
             <div class="row">
 	            <div class="left-column"><label class="label_email">{{ email.email }}</label></div>
@@ -35,6 +37,10 @@
     <input type="submit" value="send message">
 </div>
 </form>
+    {% else %}
+    <span>Чтобы пользоваться Сервисом необходимо авторизоваться </span><br>
+    <a href="{% url 'register' %}">Регистрация</a>
+{% endif %}
 </body>
 </html>
 
