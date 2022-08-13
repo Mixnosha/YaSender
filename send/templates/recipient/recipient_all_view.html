@@ -11,11 +11,15 @@
 </head>
 <body>
     <a href="{% url 'account' %}" class="new_mess">{{ request.user.username }}</a>
+    <form action="{% url 'deleteAll' %}" method="get">
+                    <button id="deleteAll" onclick="deleteAll()" style="color: red">Удалить все </button>
+                </form>
     <div class="rec_email">
     <div class="product_left">
         <div class="decor_label">
             <div class="form-inner">
                 <h4>Recipient's mail</h4>
+
                 {% for email in recipient_all %}
                     <form method="get" action="{% url 'del_email' %}">
                         <label >{{email.email}}</label><button type="submit" class="del_email">del</button>

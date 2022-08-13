@@ -95,3 +95,8 @@ def get_groups_html(request):
         else:
             break
     return groups
+
+
+def deleteAll(request):
+    RecipientEmail.objects.all().delete()
+    return redirect(reverse('recipient:recipient_all_view', kwargs={'username': request.user.username}))
