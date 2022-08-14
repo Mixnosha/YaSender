@@ -1,3 +1,5 @@
+from smtplib import SMTPAuthenticationError
+
 import yagmail
 import time
 from django.contrib.auth.models import User
@@ -24,8 +26,23 @@ def add_send_email(request):
     except Exception:
         return HttpResponse('Check if the data is correct!')
 
+def send_all_email(request):
+    email = SendEmail.objects.get(id=request.POST.get('send_email'))
+    password = email.password
+    email = email.email
+    subject = request.POST.get('subject')
+    body = request.POST.get('text')
+    to = RecipientEmail.objects.filter(user=request.user)
+    try:
+        yag = yagmail.SMTP(user=email, password=password, host='smtp.gmail.com')
+        yag.send(to=to, subject=subject, contents=[body, ])
+    except Exception:
+        return HttpResponse(f'Please check that the username and password are correct: \n {email}')
+    return redirect('/')
 
 def send_email(request):
+    if request.POST.get('all_emails'):
+        send_all_email(request)
     email = SendEmail.objects.get(id=request.POST.get('send_email'))
     password = email.password
     email = email.email
@@ -42,11 +59,7 @@ def send_email(request):
     else:
         id_group = request.POST.get('groups')
         group = GroupEmail.objects.get(id=id_group)
-        to = [ i.email for i in RecipientEmail.objects.filter(groups=group)]
-        print(email)
-        print(password)
-        print(body)
-        print(subject)
+        to = [i.email for i in RecipientEmail.objects.filter(groups=group)]
         try:
             start_time = time.time()
             yag = yagmail.SMTP(user=email, password=password, host='smtp.gmail.com')
@@ -59,8 +72,6 @@ def send_email(request):
             print(e)
             return HttpResponse(f'Please check that the username and password are correct: \n {email}')
     return redirect('/')
-
-    
 
 def del_email(request):
     id = request.GET.get('del_email_id')

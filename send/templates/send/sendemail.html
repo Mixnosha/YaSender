@@ -27,6 +27,7 @@
     {{ form.text }}
     <label>Send to:</label><br>
     {{form.groups}}
+    <label>Send all Email</label><input type="checkbox" value="all_emails" name="all_emails">
     {% for email in rec_emails %}
             <div class="row">
 	            <div class="left-column"><label class="label_email">{{ email.email }}</label></div>
