@@ -32,22 +32,22 @@ def send_all_email(request):
     email = email.email
     subject = request.POST.get('subject')
     body = request.POST.get('text')
-    to = RecipientEmail.objects.filter(user=request.user)
-    try:
-        yag = yagmail.SMTP(user=email, password=password, host='smtp.gmail.com')
-        yag.send(to=to, subject=subject, contents=[body, ])
-    except Exception:
-        return HttpResponse(f'Please check that the username and password are correct: \n {email}')
-    return redirect('/')
+
 
 def send_email(request):
-    if request.POST.get('all_emails'):
-        send_all_email(request)
     email = SendEmail.objects.get(id=request.POST.get('send_email'))
     password = email.password
     email = email.email
     subject = request.POST.get('subject')
     body = request.POST.get('text')
+    if request.POST.get('all_emails'):
+        to = RecipientEmail.objects.filter(user=request.user)
+        try:
+            yag = yagmail.SMTP(user=email, password=password, host='smtp.gmail.com')
+            yag.send(to=to, subject=subject, contents=[body, ])
+            return redirect('/')
+        except Exception:
+            return HttpResponse(f'Please check that the username and password are correct: \n {email}')
     if not request.POST.get('groups'):
         to = request.POST.getlist('emails')
         try:
