@@ -5,8 +5,9 @@
     <title>Group</title>
 </head>
 <body>
+<h1>Your Groups</h1>
     {% for group in groups %}
-        <div style="margin-top: 15px"><a href="#" >{{ group }}</a></div>
+        <div style="margin-top: 15px"><a href="{% url 'groups:one_group' name_group=group.name_group %}" >{{ group }}</a></div>
     {% endfor %}
 </body>
 </html>
