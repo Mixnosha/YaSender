@@ -68,7 +68,7 @@
     <div class="product_left">
         <div class="decor_label">
             <div class="form-inner">
-                <h4>Groups</h4>
+                <a href="{% url 'groups:index_group' %}"><h4>Groups</h4></a>
 
                 {% for group in groups %}
                     <form method="get" action="{% url 'del_email' %}">
