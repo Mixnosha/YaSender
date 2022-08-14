@@ -6,5 +6,8 @@
 </head>
 <body>
     <h1>{{ group }}</h1>
+    {% for email in emails %}
+        {{ email }}<br>
+{% endfor %}
 </body>
 </html>

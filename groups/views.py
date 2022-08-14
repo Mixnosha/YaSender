@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.views.generic import ListView
 
-from send.models import GroupEmail
+from send.models import GroupEmail, RecipientEmail
 
 
 class GroupMainPage(ListView):
@@ -15,3 +15,11 @@ class ViewOneGroup(ListView):
 
     def get_queryset(self):
         return GroupEmail.objects.get(name_group=self.kwargs['name_group'])
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(ViewOneGroup, self).get_context_data()
+
+        context['emails'] = RecipientEmail.objects.filter(groups=
+                                                          GroupEmail.objects.get(
+                                                              name_group=self.kwargs['name_group']).id)
+        return context
