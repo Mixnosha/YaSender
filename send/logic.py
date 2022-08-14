@@ -79,16 +79,20 @@ def del_email(request):
 
 def create_group_def(request):
     emails_to_group_id = request.POST.getlist('emails')
-    if len(emails_to_group_id) < 2:
-        return HttpResponse('Select min 2 mail')
     name_group = request.POST.get('name_group')
     try:
         GroupEmail.objects.get(name_group=name_group, user=request.user)
         return redirect_with_params('account', error_unique=True)
     except Exception:
         group = GroupEmail.objects.create(user=request.user, name_group=name_group)
-        for id in emails_to_group_id:
-            rec_email = RecipientEmail.objects.get(id=id)
-            rec_email.groups.add(group)
-            rec_email.save()
+    if request.POST.get('select_all_emails'):
+        for r in RecipientEmail.objects.filter(user=request.user):
+            r.groups.add(group)
         return redirect_with_params('account', error_unique=False)
+    if len(emails_to_group_id) < 2:
+        return HttpResponse('Select min 2 mail')
+    for id in emails_to_group_id:
+        rec_email = RecipientEmail.objects.get(id=id)
+        rec_email.groups.add(group)
+        rec_email.save()
+    return redirect_with_params('account', error_unique=False)
