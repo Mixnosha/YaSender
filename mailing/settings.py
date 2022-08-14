@@ -37,7 +37,11 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'send.apps.SendConfig',
+
+    'send',
+    'groups',
+    'recipient',
+
 ]
 
 MIDDLEWARE = [
