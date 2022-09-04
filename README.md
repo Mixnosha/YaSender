@@ -24,10 +24,10 @@ Sending group emails
 * Adding an unlimited number of recipients
 * Adding an unlimited number of senders
 * Sending letters
-
-### 👨🏻‍💻 Future Features
 * Create mail groups and send messages to all users in one click
 * Attaching files
+
+### 👨🏻‍💻 Future Features
 * Possibility to add mail from JSON file
 * Sent message feed
 * Ability to send the same message to the same users in one click (from the feed)
