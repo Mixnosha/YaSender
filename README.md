@@ -2,7 +2,6 @@
 
 #### A simple and useful site for sending emails to anyone
 
-###  [![Typing SVG](https://readme-typing-svg.herokuapp.com?size=16&color=F7F7F7&height=25&lines=The+project+is+under+development+.+.+.)](https://git.io/typing-svg)
 
 ### 🛠 Demo version
 
